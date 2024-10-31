@@ -1,16 +1,16 @@
 name: Python CI/CD (basic-ci)
 
 on:
-  # push:
-  #   branches: [main]
-  #   paths:
-  #     - ".github/workflows/basic-ci.yaml"
-  #     - "basic-ci/**"
-  # pull_request:
-  #   branches: [main]
-  #   paths:
-  #     - ".github/workflows/basic-ci.yaml"
-  #     - "basic-ci/**"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/basic-ci.yaml"
+      - "basic-ci/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/basic-ci.yaml"
+      - "basic-ci/**"
   workflow_dispatch:
     inputs:
       environment:
