@@ -20,14 +20,14 @@ spec:
         ports:
         - containerPort: 8000
       imagePullSecrets:
-      - name: eyJhdXRocyI6eyJnaGNyLmlvIjp7InVzZXJuYW1lIjoia2loeXVuMTk5OCIsInBhc3N3b3JkIjoiZ2hwX0duQmplcTVDSVNpYm5QQXc4NlRMWWdncmlBYTF4YjFqSmlvbyIsImVtYWlsIjoia2loeXVuMTk5OEBuYXZlci5jb20iLCJhdXRoIjoiYTJsb2VYVnVNVGs1T0RwbmFIQmZSMjVDYW1WeE5VTkpVMmxpYmxCQmR6ZzJWRXhaWjJkeWFVRmhNWGhpTVdwS2FXOXYifX19
+      - name: eyJhdXRocyI6eyJnaGNyLmlvIjp7InVzZXJuYW1lIjoia2loeXVuMTk5OCIsInBhc3N3b3JkIjoiZ2hwX0duQmplcTVDSVNpYm5QQXc4NlRMWWdncmlBYTF4YjFqSmlvbyIsImVtYWlsIjoia2loeXVuMTk5OEBuYXZlci5jb20iLCJhdXRoIjoiYTJsb2VYVnVNVGs1T0RwbmFIQmZSMjVDYW1WeE5VTkpVMmxpYmxCQmR6ZzJWRXhaWjJkeWFVRmhNWGhpTVdwS2FXOXYifX19  # 생성한 ImagePullSecret 참조
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: fastapi-service
-  namespace: seungbaeji
+  namespace: kihyun1998
 spec:
   selector:
     app: fastapi
@@ -35,5 +35,5 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8000
-      nodePort: 32179  # NodePort 직접 지정 (예시)
+      nodePort: 30993  # NodePort 직접 지정 (예시)
   type: NodePort
