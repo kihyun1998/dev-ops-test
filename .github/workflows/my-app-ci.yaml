@@ -77,3 +77,49 @@ jobs:
             --platform linux/amd64 \
             --push \
             -t ghcr.io/${{ github.actor }}/${{ env.PACKAGE }}/${{ env.PROJECT_DIR }}:latest
+
+  update_manifest:
+    name: Update Manifets YAML for ArgoCD Sync
+    runs-on: ubuntu-latest
+    needs: build  # build job이 완료된 후 실행됨
+    env:
+      SOURCE_DIR: my-app-cd
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update timestamp and commit in manifests
+        run: |
+          TIMESTAMP=$(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M:%S')
+          COMMIT=${{ github.sha }}
+
+          # 모든 매니페스트 파일에서 timestamp와 commit 업데이트
+          for FILE in ./${{ env.SOURCE_DIR }}/*.yaml; do
+            # timestamp 업데이트 또는 추가
+            if grep -q "timestamp:" "$FILE"; then
+              sed -i "s/timestamp: .*/timestamp: ${TIMESTAMP}/" "$FILE"
+            else
+              echo "  timestamp: ${TIMESTAMP}" >> "$FILE"
+            fi
+
+            # commit 업데이트 또는 추가
+            if grep -q "commit:" "$FILE"; then
+              sed -i "s/commit: .*/commit: ${COMMIT}/" "$FILE"
+            else
+              echo "  commit: ${COMMIT}" >> "$FILE"
+            fi
+          done
+
+      - name: Commit changes
+        run: |
+          git config --global user.email "kihyun1998@naver.com"
+          git config --global user.name "kihyun1998"
+          git add ./${{ env.SOURCE_DIR }}/*.yaml
+          git commit -m "Update timestamp and commit in manifests for ArgoCD sync"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GH_ACTION_TOKEN }}
+          branch: main
