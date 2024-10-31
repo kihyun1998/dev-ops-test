@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-deployment
+  namespace: kihyun1998
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi
+  template:
+    metadata:
+      labels:
+        app: fastapi
+    spec:
+      containers:
+      - name: fastapi
+        image: ghcr.io/kihyun1998/test1:latest  # GHCR 이미지 경로
+        ports:
+        - containerPort: 8000
+      imagePullSecrets:
+      - name: eyJhdXRocyI6eyJnaGNyLmlvIjp7InVzZXJuYW1lIjoia2loeXVuMTk5OCIsInBhc3N3b3JkIjoiZ2hwX0duQmplcTVDSVNpYm5QQXc4NlRMWWdncmlBYTF4YjFqSmlvbyIsImVtYWlsIjoia2loeXVuMTk5OEBuYXZlci5jb20iLCJhdXRoIjoiYTJsb2VYVnVNVGs1T0RwbmFIQmZSMjVDYW1WeE5VTkpVMmxpYmxCQmR6ZzJWRXhaWjJkeWFVRmhNWGhpTVdwS2FXOXYifX19
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-service
+  namespace: seungbaeji
+spec:
+  selector:
+    app: fastapi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+      nodePort: 30173  # NodePort 직접 지정 (예시)
+  type: NodePort
